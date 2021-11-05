@@ -72,7 +72,9 @@ sudo -u $USERNAME bash -c 'curl --proto '=https' --tlsv1.2 -sSf https://sh.rustu
 dnf install -y
   starship \
   ripgrep \
+  fd-find \
   exa \
   tealdeer \
+  fzf
 
 tldr --update

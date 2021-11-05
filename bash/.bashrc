@@ -40,3 +40,59 @@ function mkcd {
 if [ -f ~/.bash_aliases ]; then
   source ~/.bash_aliases
 fi
+
+function config {
+  case $1 in
+    "edit")
+      if path="$(FZF_DEFAULT_COMMAND='fd . ~/configuration --type=f --ignore-case --no-ignore --hidden --exclude=.git' fzf --query "$2" --select-1 -i --exact)" ; then
+        [ -f "$path" ] && nvim "$path"
+      fi
+      ;;
+    *)
+      git --git-dir="$HOME/configuration/.git" --work-tree="$HOME/configuration" "$@"
+      ;;
+  esac
+}
+
+function gitpeek {
+  if [[ -n "$1" ]] ; then
+    local repo="$1"
+    local tmpdname
+
+    tmpdname="$(mktemp -d --suffix='-git-peek')"
+
+    if [[ ! "$repo" =~ ^https ]] ; then
+      repo="https://github.com/${repo}"
+    fi
+
+    git clone --depth 1 "$repo" "$tmpdname" || return
+
+    echo "${tmpdname} # ${repo}" >> ~/.git-peek
+
+    cd "$tmpdname" || exit # undo by `cd -`
+
+    return
+  fi
+
+  if [[ -f ~/.git-peek ]] ; then
+    alive=$(mktemp)
+
+    while read -r dname ; do
+      [[ -d ${dname%% *} ]] && echo "$dname" >> "$alive"
+    done < ~/.git-peek
+
+    cp "$alive" ~/.git-peek
+
+    if dname="$(fzf -i --select-1 --exit-0 < ~/.git-peek)" ; then
+      cd ${dname%% *} || exit
+    fi
+  fi
+
+  return
+}
+
+[[ -d "$HOME/.cargo" ]] && PATH="$PATH:$HOME/.cargo/bin"
+
+export STARSHIP_CONFIG=~/.config/starship/starship.toml
+export EDITOR=nvim
+export PATH

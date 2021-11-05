@@ -27,3 +27,5 @@ fi
 if command -v tldr &> /dev/null; then
   alias tldr='tldr --color always'
 fi
+
+alias ce='config edit'
