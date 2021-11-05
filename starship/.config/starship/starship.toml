@@ -1,0 +1,65 @@
+format = """$username\
+${custom.hostname}\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$cmd_duration\
+$line_break\
+$status\
+$character"""
+
+add_newline = true
+
+[username]
+style_user = "white bold"
+style_root = "red bold"
+format = "[$user]($style)"
+disabled = false
+show_always = true
+
+[directory]
+format = "[$path]($style) [$read_only]($read_only_style)"
+read_only = "\u27f5 "
+style = "green"
+truncation_length = 5
+
+[git_branch]
+symbol = "\u219d "
+style = "white"
+
+[git_commit]
+
+[git_state]
+
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'
+stashed = '[\(↥$count\)](blue)'
+renamed = '[\(↦$count\)](green)'
+untracked = '[\(?$count\)](red)'
+deleted = '[\(-$count\)](red)'
+modified = '[\(!$count\)](red)'
+staged = '[\(+$count\)](green)'
+
+[cmd_duration]
+min_time = 10_000
+style = "fg:#555555"
+
+[status]
+disabled = false
+format = "[$status ]($style)"
+style = "fg:#ff0000"
+
+[character]
+success_symbol = "[⟶](green)"
+error_symbol = "[⟶](fg:#ff0000)"
+
+[package]
+disabled = false
+
+[custom.hostname]
+style = "white"
+command = 'HN=$(hostname); HNI=$(hostname -I); [[ "$PWD" == "$HOME" ]] && [[ ! -z "$HNI" ]] && echo -n "$HNI" || echo -n "$HN"'
+format = "@[$output]($style) "
+when = "true"

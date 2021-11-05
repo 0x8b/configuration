@@ -6,3 +6,4 @@ fi
 
 export EDITOR=nvim
 export PATH
+export STARSHIP_CONFIG=~/.config/starship/starship.toml

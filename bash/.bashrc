@@ -30,3 +30,13 @@ if [[ -d "$HOME/.asdf" ]]; then
 fi
 
 [[ -d "$HOME/.cargo" ]] && source $HOME/.cargo/env
+
+eval "$(starship init bash)"
+
+function mkcd {
+  mkdir -pv -- "$1" && cd -- "$1" || exit
+}
+
+if [ -f ~/.bash_aliases ]; then
+  source ~/.bash_aliases
+fi

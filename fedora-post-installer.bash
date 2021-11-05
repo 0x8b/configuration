@@ -8,14 +8,18 @@ dnf install -y https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-re
 
 dnf install -y stow
 
-
+sudo -u $USERNAME bash -c 'mkdir -p ~/.local/bin/'
 sudo -u $USERNAME bash -c 'rm ~/.bash{rc,_profile}'
 sudo -u $USERNAME bash -c 'stow -S \
   bash \
   git \
   nvim \
+  starship \
+  tealdeer \
+  bin \
   kitty'
 
+sudo -u $USERNAME bash -c 'chmod +x ~/configuration/bin/.local/bin/*'
 
 sudo -u $USERNAME bash <<EOF
   curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n
@@ -63,11 +67,13 @@ dnf install -y \
   htop
 
 
-# curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -v -y --no-modify-path
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -v -y --no-modify-path
 
-# cargo install \
-#   exa \
-#   ripgrep \
-#   starship \
-#   tldr \
-#   zoxide
+cargo install \
+  exa \
+  ripgrep \
+  starship \
+  tldr \
+  zoxide
+
+tldr --update
