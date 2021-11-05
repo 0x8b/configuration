@@ -23,6 +23,11 @@ require('packer').startup(function()
 
   -- GitHub theme for Neovim
   use 'projekt0n/github-nvim-theme'
+
+  -- A blazing fast and easy to configure Neovim statusline written in Lua
+  use { 'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+  }
 end)
 
 vim.o.number = true
@@ -42,11 +47,11 @@ vim.api.nvim_set_keymap('v', '<leader>j', [[<cmd>lua require'hop'.hint_char1()<c
 
 require('gitsigns').setup {
   signs = {
-    add          = { hl = 'GitSignsAdd'   , text = '+', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn' },
-    change       = { hl = 'GitSignsChange', text = 'm', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn' },
-    delete       = { hl = 'GitSignsDelete', text = '-', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn' },
-    topdelete    = { hl = 'GitSignsDelete', text = '-', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn' },
-    changedelete = { hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn' },
+    add          = { hl = 'GitSignsAdd'   , text = '+', },
+    change       = { hl = 'GitSignsChange', text = '*', },
+    delete       = { hl = 'GitSignsDelete', text = '-', },
+    topdelete    = { hl = 'GitSignsDelete', text = '-', },
+    changedelete = { hl = 'GitSignsChange', text = '~', },
   },
 }
 
@@ -54,4 +59,8 @@ vim.cmd [[colorscheme github_light]]
 
 require('github-theme').setup {
   theme_style = 'light_default',
+}
+
+require('lualine').setup{
+  theme = 'github_light_default',
 }
