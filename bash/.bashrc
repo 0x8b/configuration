@@ -91,6 +91,8 @@ function gitpeek {
   return
 }
 
+export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
+
 [[ -d "$HOME/.cargo" ]] && PATH="$PATH:$HOME/.cargo/bin"
 
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
