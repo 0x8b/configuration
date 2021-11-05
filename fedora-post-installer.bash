@@ -9,7 +9,7 @@ dnf install -y https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-re
 dnf install -y stow
 
 sudo -u $USERNAME bash -c 'mkdir -p ~/.local/bin/'
-sudo -u $USERNAME bash -c 'rm ~/.bash{rc,_profile}'
+sudo -u $USERNAME bash -c 'rm -f ~/.bash{rc,_profile}'
 sudo -u $USERNAME bash -c 'stow -S \
   bash \
   git \
@@ -67,13 +67,12 @@ dnf install -y \
   htop
 
 
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -v -y --no-modify-path
+sudo -u $USERNAME bash -c 'curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -v -y --no-modify-path'
 
-cargo install \
-  exa \
-  ripgrep \
+dnf install -y
   starship \
-  tldr \
-  zoxide
+  ripgrep \
+  exa \
+  tealdeer \
 
 tldr --update

@@ -38,13 +38,30 @@ vim.api.nvim_set_keymap('', '<space>', '<nop>', { noremap = true, silent = true 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+
+-- Hop
 require('hop').setup {
   keys = 'asdfjklreuio',
+  create_hl_autocmd = false,
 }
+
+-- override default highlighting
+vim.api.nvim_command('augroup HopInitHighlight')
+vim.api.nvim_command('autocmd!')
+vim.api.nvim_command('autocmd ColorScheme * \z
+  highlight default HopNextKey guifg=#000000 | \z
+  highlight default HopNextKey1 guifg=#000000 | \z
+  highlight default HopNextKey2 guifg=#000000 | \z
+  highlight default HopUnmatched guifg=#bbbbbb | \z
+  highlight default link HopCursor Cursor'
+)
+vim.api.nvim_command('augroup end')
 
 vim.api.nvim_set_keymap('n', '<leader>j', [[<cmd>lua require'hop'.hint_char1()<cr>]], {})
 vim.api.nvim_set_keymap('v', '<leader>j', [[<cmd>lua require'hop'.hint_char1()<cr>]], {})
 
+
+-- Gitsigns
 require('gitsigns').setup {
   signs = {
     add          = { hl = 'GitSignsAdd'   , text = '+', },
@@ -54,6 +71,7 @@ require('gitsigns').setup {
     changedelete = { hl = 'GitSignsChange', text = '~', },
   },
 }
+
 
 vim.cmd [[colorscheme github_light]]
 

@@ -1,4 +1,5 @@
-format = """$username\
+format = """$shlvl\
+$username\
 ${custom.hostname}\
 $directory\
 $git_branch\
@@ -11,6 +12,12 @@ $status\
 $character"""
 
 add_newline = true
+
+[shlvl]
+threshold = 1
+format = "[$symbol$shlvl]($style) "
+symbol = "↖"
+disabled = false
 
 [username]
 style_user = "white bold"
