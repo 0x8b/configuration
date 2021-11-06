@@ -17,6 +17,7 @@ sudo -u $USERNAME bash -c 'stow -S \
   starship \
   tealdeer \
   bin \
+  task \
   kitty'
 
 sudo -u $USERNAME bash -c 'chmod +x ~/configuration/bin/.local/bin/*'
@@ -69,12 +70,30 @@ dnf install -y \
 
 sudo -u $USERNAME bash -c 'curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -v -y --no-modify-path'
 
-dnf install -y
+dnf install -y \
   starship \
   ripgrep \
   fd-find \
   exa \
   tealdeer \
-  fzf
+  fzf \
+  task
 
-tldr --update
+# tldr --update
+
+
+# install `aspell` and Polish dictionary
+dnf install -y aspell
+pushd /tmp
+curl -O "https://sjp.pl$(curl --silent https://sjp.pl/slownik/en/ | grep -E aspell6 | cut -d \" -f 2)"
+tar xvjf sjp-aspell6*.tar.bz2
+cd aspell6*
+./configure
+make install
+popd
+
+
+dnf install -y \
+  vlc \
+  gimp \
+  inkscape

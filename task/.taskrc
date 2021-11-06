@@ -1,0 +1,3 @@
+report.next.filter=status:pending
+report.next.sort=urgency+,entry-
+weekstart=monday

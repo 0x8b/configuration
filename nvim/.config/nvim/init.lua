@@ -41,7 +41,6 @@ vim.g.maplocalleader = ' '
 
 -- Hop
 require('hop').setup {
-  keys = 'asdfjklreuio',
   create_hl_autocmd = false,
 }
 
