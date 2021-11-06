@@ -1,3 +1,4 @@
+local opt = vim.opt
 local use = require('packer').use
 
 require('packer').startup(function()
@@ -30,14 +31,38 @@ require('packer').startup(function()
   }
 end)
 
-vim.o.number = true
-vim.o.relativenumber = true
 
 -- Remap space as leader key
 vim.api.nvim_set_keymap('', '<space>', '<nop>', { noremap = true, silent = true })
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+opt.scrolloff = 3
+opt.ignorecase = true
+opt.smartcase = true
+opt.inccommand = 'split'
+opt.number = true
+opt.relativenumber = true
+
+local function remap(mode, lhs, rhs)
+  vim.api.nvim_set_keymap(mode, lhs, rhs, { silent = true, noremap = true })
+end
+
+remap('n', '<leader>s', [[:%s//g<left><left>]])
+remap('n', '<leader>q', [[<cmd>q<cr>]])
+remap('n', '<leader>w', [[<cmd>w<cr>]])
+remap('n', '<leader>x', [[<cmd>wq<cr>]])
+
+
+-- Highlight on yank
+vim.api.nvim_exec(
+  [[
+  augroup YankHighlight
+    autocmd!
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank()
+  augroup end
+  ]],
+  false)
 
 -- Hop
 require('hop').setup {
@@ -45,19 +70,17 @@ require('hop').setup {
 }
 
 -- override default highlighting
-vim.api.nvim_command('augroup HopInitHighlight')
-vim.api.nvim_command('autocmd!')
-vim.api.nvim_command('autocmd ColorScheme * \z
-  highlight default HopNextKey guifg=#000000 | \z
-  highlight default HopNextKey1 guifg=#000000 | \z
-  highlight default HopNextKey2 guifg=#000000 | \z
-  highlight default HopUnmatched guifg=#bbbbbb | \z
-  highlight default link HopCursor Cursor'
-)
-vim.api.nvim_command('augroup end')
+vim.api.nvim_exec(
+ [[
+ augroup HopInitHighlight
+   autocmd!
+   autocmd ColorScheme * highlight default HopNextKey guifg=#000000 | highlight default HopNextKey1 guifg=#000000 | highlight default HopNextKey2 guifg=#000000 | highlight default HopUnmatched guifg=#bbbbbb | highlight default link HopCursor Cursor
+ augroup end
+ ]],
+ false)
 
-vim.api.nvim_set_keymap('n', '<leader>j', [[<cmd>lua require'hop'.hint_char1()<cr>]], {})
-vim.api.nvim_set_keymap('v', '<leader>j', [[<cmd>lua require'hop'.hint_char1()<cr>]], {})
+remap('n', '<leader>j', [[<cmd>lua require'hop'.hint_char1()<cr>]])
+remap('v', '<leader>j', [[<cmd>lua require'hop'.hint_char1()<cr>]])
 
 
 -- Gitsigns
