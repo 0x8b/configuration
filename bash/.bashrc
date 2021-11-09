@@ -54,41 +54,45 @@ function config {
   esac
 }
 
-function gitpeek {
-  if [[ -n "$1" ]] ; then
-    local repo="$1"
-    local tmpdname
+function git {
+  if [[ "$1" == "peek" ]] ; then
+    if [[ -n "$2" ]] ; then
+      local repo="$2"
+      local tmpdname
 
-    tmpdname="$(mktemp -d --suffix='-git-peek')"
+      tmpdname="$(mktemp -d --suffix='-git-peek')"
 
-    if [[ ! "$repo" =~ ^https ]] ; then
-      repo="https://github.com/${repo}"
+      if [[ ! "$repo" =~ ^https ]] ; then
+        repo="https://github.com/${repo}"
+      fi
+
+      git clone --depth 1 "$repo" "$tmpdname" || return
+
+      echo "${tmpdname} # ${repo}" >> ~/.git-peek
+
+      cd "$tmpdname" || exit # undo by `cd -`
+
+      return
     fi
 
-    git clone --depth 1 "$repo" "$tmpdname" || return
+    if [[ -f ~/.git-peek ]] ; then
+      alive=$(mktemp)
 
-    echo "${tmpdname} # ${repo}" >> ~/.git-peek
+      while read -r dname ; do
+        [[ -d ${dname%% *} ]] && echo "$dname" >> "$alive"
+      done < ~/.git-peek
 
-    cd "$tmpdname" || exit # undo by `cd -`
+      cp "$alive" ~/.git-peek
+
+      if dname="$(fzf -i --select-1 --exit-0 < ~/.git-peek)" ; then
+        cd ${dname%% *} || exit
+      fi
+    fi
 
     return
+  else
+    /usr/bin/git "$@"
   fi
-
-  if [[ -f ~/.git-peek ]] ; then
-    alive=$(mktemp)
-
-    while read -r dname ; do
-      [[ -d ${dname%% *} ]] && echo "$dname" >> "$alive"
-    done < ~/.git-peek
-
-    cp "$alive" ~/.git-peek
-
-    if dname="$(fzf -i --select-1 --exit-0 < ~/.git-peek)" ; then
-      cd ${dname%% *} || exit
-    fi
-  fi
-
-  return
 }
 
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
