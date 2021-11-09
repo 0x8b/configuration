@@ -20,7 +20,7 @@ sudo -u $USERNAME bash -c 'stow -S \
   task \
   kitty'
 
-sudo -u $USERNAME bash -c 'chmod +x ~/configuration/bin/.local/bin/*'
+sudo -u $USERNAME bash -c 'chmod +x ~/.configuration/bin/.local/bin/*'
 
 sudo -u $USERNAME bash <<EOF
   curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n

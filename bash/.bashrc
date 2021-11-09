@@ -44,12 +44,12 @@ fi
 function config {
   case $1 in
     "edit")
-      if path="$(FZF_DEFAULT_COMMAND='fd . ~/configuration --type=f --ignore-case --no-ignore --hidden --exclude=.git' fzf --query "$2" --select-1 -i --exact)" ; then
+      if path="$(FZF_DEFAULT_COMMAND='fd . ~/.configuration --type=f --ignore-case --no-ignore --hidden --exclude=.git' fzf --query "$2" --select-1 -i --exact)" ; then
         [ -f "$path" ] && nvim "$path"
       fi
       ;;
     *)
-      git --git-dir="$HOME/configuration/.git" --work-tree="$HOME/configuration" "$@"
+      git --git-dir="$HOME/.configuration/.git" --work-tree="$HOME/.configuration" "$@"
       ;;
   esac
 }
