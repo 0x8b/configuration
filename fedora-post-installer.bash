@@ -8,21 +8,13 @@ dnf install -y https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-re
 
 dnf install -y stow
 
-sudo -u $USERNAME bash -c 'mkdir -p ~/.local/bin/'
-sudo -u $USERNAME bash -c 'rm -f ~/.bash{rc,_profile}'
-sudo -u $USERNAME bash -c 'stow -S \
-  bash \
-  git \
-  nvim \
-  starship \
-  tealdeer \
-  bin \
-  task \
-  kitty'
+sudo -u "$USERNAME" bash -c 'mkdir -p ~/.local/bin/'
+sudo -u "$USERNAME" bash -c 'rm -f ~/.bash{rc,_profile}'
+sudo -u "$USERNAME" bash -c 'stow -S bash git nvim starship tealdeer bin task kitty'
 
-sudo -u $USERNAME bash -c 'chmod +x ~/.configuration/bin/.local/bin/*'
+sudo -u "$USERNAME" bash -c 'chmod +x ~/.configuration/bin/.local/bin/*'
 
-sudo -u $USERNAME bash <<EOF
+sudo -u "$USERNAME" bash <<EOF
   curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n
   mkdir -p ~/.local/bin/
   ln -s ~/.local/kitty.app/bin/kitty ~/.local/bin/
@@ -32,7 +24,7 @@ sudo -u $USERNAME bash <<EOF
 EOF
 
 
-sudo -u $USERNAME bash <<EOF
+sudo -u "$USERNAME" bash <<EOF
   mkdir -p ~/.local/share/fonts
   pushd /tmp
   curl -LO https://github.com/JetBrains/JetBrainsMono/releases/download/v2.242/JetBrainsMono-2.242.zip
@@ -44,40 +36,18 @@ EOF
 
 
 dnf install -y neovim
-sudo -u $USERNAME bash -c 'git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim'
+sudo -u "$USERNAME" bash -c 'git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim'
 
 
 # https://fedoraproject.org/wiki/SIGs/Sway
-dnf install -y \
-  grim \
-  kanshi \
-  mako \
-  rofi \
-  slurp \
-  sway \
-  swaybg \
-  swayidle \
-  swaylock \
-  waybar \
-  wlroots \
-  xdg-desktop-portal-wlr
+dnf install -y grim kanshi mako rofi slurp sway swaybg swayidle swaylock waybar wlroots xdg-desktop-portal-wlr
 
-dnf install -y \
-  wl-clipboard \
-  nnn \
-  htop
+dnf install -y wl-clipboard nnn htop
 
 
-sudo -u $USERNAME bash -c 'curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -v -y --no-modify-path'
+sudo -u "$USERNAME" bash -c 'curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -v -y --no-modify-path'
 
-dnf install -y \
-  starship \
-  ripgrep \
-  fd-find \
-  exa \
-  tealdeer \
-  fzf \
-  task
+dnf install -y starship ripgrep fd-find exa tealdeer fzf task ShellCheck
 
 # tldr --update
 
@@ -93,7 +63,4 @@ make install
 popd
 
 
-dnf install -y \
-  vlc \
-  gimp \
-  inkscape
+dnf install -y vlc gimp inkscape
