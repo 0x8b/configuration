@@ -64,3 +64,19 @@ popd
 
 
 dnf install -y vlc gimp inkscape
+
+
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
+
+dnf install -y openssl-devel zlib-devel
+asdf plugin add ruby
+asdf install ruby latest:2
+asdf install ruby latest:3
+echo ruby $(asdf latest ruby 2) >> /home/$USERNAME/.tool-versions
+
+mv -v ~/.asdf /home/$USERNAME/.asdf
+chown -R $USERNAME:$USERNAME /home/$USERNAME/.asdf
+
+dnf install -y gcc-c++
+# :TSInstall ruby
+# :LspInstall solargraph rust_analyzer

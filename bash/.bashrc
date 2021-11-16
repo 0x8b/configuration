@@ -99,6 +99,8 @@ export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 
 [[ -d "$HOME/.cargo" ]] && PATH="$PATH:$HOME/.cargo/bin"
 
+[[ -d "$HOME/.asdf" ]] && . $HOME/.asdf/asdf.sh && . $HOME/.asdf/completions/asdf.bash
+
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 export EDITOR=nvim
 export PATH

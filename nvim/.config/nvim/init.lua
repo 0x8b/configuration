@@ -201,14 +201,16 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
--- Enable the following language servers
-local servers = { 'rust_analyzer' }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
+local lsp_installer = require("nvim-lsp-installer")
+
+lsp_installer.on_server_ready(function(server)
+  local opts = {
     on_attach = on_attach,
     capabilities = capabilities,
   }
-end
+
+  server:setup(opts)
+end)
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
